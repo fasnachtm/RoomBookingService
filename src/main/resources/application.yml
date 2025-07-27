@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: roombooking
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/booking_database
+    username: booking_username
+    password: booking_password
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml # Path to master changelog file
+    enabled: true # Set to false to disable Liquibase on application startup
+    drop-first: false # Set to true to drop all database objects before running migrations (use with caution!)
+  #  default-schema: public # Optional: specify the default schema for Liquibase operations
+
+
+# Swagger OpenAPI properties
+roombooking:
+  dev-url: http://localhost:8080
+  springdoc:
+    api-docs:
+      path: /api-docs
+    swagger-ui:
+      path: /swagger-ui.html
+      enabled: true

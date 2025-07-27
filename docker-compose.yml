@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Java Application Service
+  app:
+    build: . # Build the image from the current directory (where Dockerfile is)
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080
+    environment:
+      # Configure database connection details for your Java app
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/booking_database
+      SPRING_DATASOURCE_USERNAME: booking_username
+      SPRING_DATASOURCE_PASSWORD: booking_password
+    depends_on:
+      db:
+        condition: service_healthy # Ensure DB is healthy before starting app
+
+  # PostgreSQL Database Service
+  db:
+    image: postgres:latest # Use the latest official PostgreSQL image
+    environment:
+      POSTGRES_DB: booking_database
+      POSTGRES_USER: booking_username
+      POSTGRES_PASSWORD: booking_password
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persist database data
+    ports:
+      - "5432:5432" # Map host port 5432 to container port 5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U booking_username -d booking_database"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data: # Define the named volume for data persistence

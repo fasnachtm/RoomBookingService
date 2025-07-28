@@ -76,7 +76,7 @@ class BookingServiceTest {
                 () -> bookingService.createBooking(booking)
         );
 
-        assertEquals("Start time must come before end time.", exception.getMessage());
+        assertEquals(BookingService.ERROR_MESSAGE_INVALID_TIME_RANGE, exception.getMessage());
         verify(bookingRepository, never()).save(any());
     }
 
@@ -90,7 +90,7 @@ class BookingServiceTest {
                 () -> bookingService.createBooking(booking)
         );
 
-        assertEquals("Start time must come before end time.", exception.getMessage());
+        assertEquals(BookingService.ERROR_MESSAGE_INVALID_TIME_RANGE, exception.getMessage());
         verify(bookingRepository, never()).save(any());
     }
 
@@ -119,7 +119,7 @@ class BookingServiceTest {
                 () -> bookingService.createBooking(booking)
         );
 
-        assertEquals("The room is already booked for the specified time.", exception.getMessage());
+        assertEquals(BookingService.ERROR_BOOKING_OVERLAP, exception.getMessage());
         verify(roomRepository).findById(1L);
         verify(bookingRepository).findByRoomIdAndRange(eq(1L), any(), any());
         verify(bookingRepository, never()).save(any());

@@ -4,4 +4,5 @@ import com.assessment.roombooking.models.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
+    Room findByName(String name);
 }

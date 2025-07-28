@@ -9,20 +9,5 @@
     <property name="now" value="now()" dbms="h2,postgresql"/>
     <property name="uuid" value="uuid()" dbms="h2,postgresql"/>
 
-    <!-- Include other changelog files here -->
-    <!-- <include file="classpath:db/changelog/changes/001-initial-schema.xml"/> -->
-
-    <!-- Example initial changelog entry -->
-    <!--
-    <changeSet id="1" author="liquibase">
-        <createTable tableName="example">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(255)"/>
-            <column name="created_date" type="TIMESTAMP" defaultValueComputed="${now}"/>
-        </createTable>
-    </changeSet>
--->
     <include file="db/changelog/changes/001-initial-schema.xml"/>
 </databaseChangeLog>

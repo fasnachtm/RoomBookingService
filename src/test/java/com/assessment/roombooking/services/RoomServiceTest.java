@@ -58,6 +58,22 @@ class RoomServiceTest {
     }
 
     @Test
+    void createRoom_WithExistingName_ShouldThrowException() {
+        Room existingRoom = new Room("Test Room", "Location");
+        when(roomRepository.findByName(roomDto.getName())).thenReturn(existingRoom);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> roomService.createRoom(roomDto)
+        );
+
+        assertEquals("Room with name Test Room already exists.", exception.getMessage());
+        verify(roomRepository).findByName(roomDto.getName());
+        verify(roomRepository, never()).save(any());
+    }
+
+
+    @Test
     void getAllRooms_ShouldReturnListOfRooms() {
         when(roomRepository.findAll()).thenReturn(List.of(room));
 

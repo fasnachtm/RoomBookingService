@@ -23,6 +23,10 @@ public class RoomService {
         if (roomDto.getName() == null || roomDto.getName().isEmpty()) {
             throw new IllegalArgumentException("Room name cannot be null or empty.");
         }
+        Room existingRoom = roomRepository.findByName(roomDto.getName());
+        if (existingRoom != null) {
+            throw new IllegalArgumentException("Room with name " + roomDto.getName() + " already exists.");
+        }
         Room savedRoom = roomRepository.save(new Room(roomDto.getName(), roomDto.getLocation()));
         return savedRoom.getId();
     }

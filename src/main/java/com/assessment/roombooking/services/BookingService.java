@@ -20,24 +20,12 @@ import java.util.Optional;
 public class BookingService {
 
     public static final String ERROR_BOOKING_OVERLAP = "The room is already booked for the specified time.";
-    public static final String ERROR_MESSAGE_INVALID_TIME_RANGE = "Start time must come before end time.";
+    public static final String ERROR_MESSAGE_INVALID_TIME_RANGE = "Both start and end must be defined and start time must come before end time.";
     @Autowired
     private RoomRepository roomRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
-
-    public Long createBooking(BookingDto bookingDto) {
-        try {
-            Booking booking = checkAndConvertToBooking(bookingDto);
-            Booking savedBooking = bookingRepository.save(booking);
-            return savedBooking.getId();
-        } catch (DateTimeParseException | IllegalArgumentException e) {
-            throw new IllegalArgumentException("Bad booking request: " + e.getMessage());
-        }
-    }
-
-
 
     public Long createBooking(Booking booking) {
         // change

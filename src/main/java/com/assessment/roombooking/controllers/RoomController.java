@@ -3,6 +3,7 @@ package com.assessment.roombooking.controllers;
 import com.assessment.roombooking.dto.RoomDto;
 import com.assessment.roombooking.models.Room;
 import com.assessment.roombooking.services.RoomService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -21,16 +22,18 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
+    @Operation(summary = "Create a new room", description = "Creates a new room with the specified details.")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createRoom(
             @RequestBody() RoomDto room
     ) {
         try {
+
             Long roomId = roomService.createRoom(room);
             return ResponseEntity.ok("Room created with ID: " + roomId);
         }
         catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Room data is required.");
+            return ResponseEntity.badRequest().body("Invalid room requst:" + e.getMessage());
         }
 
         catch (Exception e) {
@@ -38,6 +41,7 @@ public class RoomController {
         }
     }
 
+    @Operation(summary = "Get all rooms", description = "Retrieve a list of all rooms.")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAllRooms() {
         try {
@@ -47,6 +51,7 @@ public class RoomController {
         }
     }
 
+    @Operation(summary = "Get rooms by id", description = "Retrieve room information by room id.")
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public ResponseEntity<?> getRoomById(@Param("id") Long id) {
         try {
@@ -61,6 +66,7 @@ public class RoomController {
         }
     }
 
+    @Operation(summary = "Delete a room by id", description = "Delete a room by room id.")
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public ResponseEntity<?> deleteRoomById(@Param("id") Long id) {
         try {
